@@ -1,0 +1,36 @@
+{% extends 'basic.html' %} {% block body %} {% load custom_tags %}
+
+<div class="container my-3">
+  {% for i in all_glasses %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Length</th>
+        <th scope="col">Breadth</th>
+        <th scope="col">Polish</th>
+        <th scope="col">Qty</th>
+      </tr>
+    </thead>
+    <tbody>
+      <div
+        class="fluid-container px-3 text-light py-3"
+        style="background-color: #25465d"
+      >
+        <h3>{{i.0}}</h3>
+      </div>
+      {% for j in i %} {% for x in j %} {% if x|isinstance:"list" %}
+      <tr>
+        <td scope="row">{{x.0}}</td>
+        <td>{{x.1}}</td>
+        <td>{{x.2}}</td>
+        <td>{{x.3}}</td>
+      </tr>
+      {% endif %} {% endfor %} {% endfor %}
+    </tbody>
+
+    <tbody></tbody>
+  </table>
+
+  {% endfor %}
+</div>
+{% endblock %}

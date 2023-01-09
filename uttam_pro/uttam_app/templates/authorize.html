@@ -1,0 +1,69 @@
+{% extends 'basic.html' %}
+
+
+{% block body %}
+<style>
+    *{
+        color:white;
+    }
+    @media only screen and (max-width: 1200px) {
+        .form-text{
+          font-size: 1.3vh !important;
+        }
+        input[type="checkbox"]{
+            font-size:1vh;
+        }
+      }
+</style>
+
+<div class="container justify-content-end px-3 my-2 w-75" id="Search">
+    <form class="d-flex" role="search" method="POST">
+        {% csrf_token %}
+      <input class="form-control me-2 text-light" style="background-color:#74BDE0;" type="search" placeholder="Search" aria-label="Search" name="searchQuery" required>
+      <button class="btn btn-outline-success text-light" style="background-color: #12222e;" type="submit" name="searchSubmit">Search</button>
+    </form>
+</div>
+
+<div class="fluid-container mx-2">
+    <div class="list-group" >
+        <div href="#" class="list-group-item list-group-item-action" style="background-color:#3B7197;">
+        {% for user in all_users %}
+        {% if user.user_id is not id %}
+            <div class="d-flex flex-col align-items-center justify-content-between px-2 py-2 row" style="border:2px solid #12222e;border-radius:0.3em;">
+
+                <div class=" col-md-6">
+                        <h4 class="mb-1 text-light">Name: {{user.fullname}}</h4>
+                        <h4 class="mb-1 text-light">Phone: {{user.phone}}</h4>
+                </div>
+
+                <div class=" col-md-6">   
+                    <div>
+                        <form method="POST" id="Form">
+                            {% csrf_token %}
+                            <div class="input-group-text me-2 my-2" style="background-color:#cbe7f5;">
+                                <input class="form-check-input mt-0 me-2" type="checkbox" name="allow_adding_users" id="add{{user.user_id}}" {% if user.add_users %}checked{% endif %} aria-label="Checkbox for following text input" >
+                                <span class="form-text">Allow adding User</span> 
+                            </div>
+                            <div class="input-group-text me-2 my-2" style="background-color:#cbe7f5;">
+                                <input class="form-check-input mt-0 me-2" type="checkbox" name="allow_authorize" id="authorize{{user.user_id}}" aria-label="Checkbox for following text input" {% if user.give_access %}checked{% endif %}>
+                                        <span class="form-text">Allow authorization</span>
+                            </div>
+
+                            <input type="hidden" value="{{user.user_id}}" name="userID">
+
+                            <div class=" me-2 my-2">
+                                <button class="btn text-light w-100" type="submit" class="userForm"  id="userForm{{user.user_id}}" value="Save Changes" name="userSubmit" style="background-color:darkgreen;">Save Changes</button>
+                            </div>
+                            <div class=" me-2 my-2">
+                                <a class="btn btn-danger text-light w-100" class="userForm" href="/{{id}}/delete-user/{{user.user_id}}/" value="delete user" name="deleteuser">Delete User</a>
+                            </div>
+                        </form>
+                </div>
+            </div>    
+        </div>
+            {% endif %}
+            {% endfor %}
+    </div>
+    </div>
+</div>
+{% endblock %}

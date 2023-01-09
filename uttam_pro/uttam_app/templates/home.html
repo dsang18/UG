@@ -1,0 +1,49 @@
+{% extends 'basic.html' %}
+{% block body %}
+
+<style>
+  svg{
+    width: 20%;
+  }
+
+  @media only screen and (max-width: 1024px){
+    svg{
+      width:50%;
+    }
+  }
+</style>
+
+
+
+<div class="fluid-container justify-content-end px-3 my-2" id="Search">
+    <form class="d-flex flex-row" role="search">
+      <div class="w-100 d-flex flex-row justify-content-center">
+          <input class="form-control me-2 w-50" style="background-color:#74BDE0;" type="search" placeholder="Search" aria-label="Search"> 
+          <button class="btn btn-outline-success text-light w-20" style="background-color: #12222e;" type="submit">Search</button>
+        </div>
+      </form>     
+</div>
+
+<div class="fluid-container mx-2">
+  <div class="list-group" >
+      <div href="#" class="list-group-item list-group-item-action" style="background-color:#3B7197;">
+      <form method="POST">
+      {% for client in all_clients %}
+        <div class="d-flex flex-row align-items-center justify-content-between px-2 py-2 row" style="border:2px solid #12222e;border-radius:0.3em;">
+          <div class="w-75 ">
+              <div class="mb-1  text-light">{{client.client_name}}</div>
+              <div class="mb-1  text-light">Address: {{client.flat_no}} {{client.building_name}}</div>
+          </div>
+
+          <div class="w-25 text-end">
+            <a href="/{{id}}/client-{{client.id}}/"><svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 448 512"><path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></a> 
+          </div>
+                
+        </div>
+        
+      {% endfor %}
+      </form>
+  </div>
+  </div>
+</div>
+{% endblock %}

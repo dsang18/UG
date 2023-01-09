@@ -1,0 +1,207 @@
+{% extends 'basic.html' %}
+{% load static %}
+{% block body %}
+<style>
+  * {
+    color: white;
+    margin:0px;
+    padding:0px;
+  }
+
+  .form-control {
+    background-color: #cbe7f5;
+  }
+  .trash{
+    width:15%;
+  }
+  .row{
+    max-width:100%;
+  }
+  .trash2{
+    width:4%;
+  }
+  .row{
+      text-align:center;
+    }
+  @media only screen and (max-width: 1024px){
+    .row{
+      text-align:start;
+    }
+    .trash{
+      width:14%;
+    }
+    .trash2{
+      width:10%;
+    }
+  }
+</style>
+
+
+
+<div class="fluid-container">
+  <form method="POST" action="" class="fluid-container" style="background-color: #4A8DB7;">
+    {% csrf_token %}
+    <div id="GlassOrder" class="px-0 py-0">
+      <input   type="hidden" name="no_of_rooms" value="1" id="number_rooms">
+      <input   type="hidden" name="room1glasses" value="1" id="room1_number_glasses">
+      <div class="d-flex align-items-center justify-content-center py-2 w-100 flex-wrap">
+        <div class="d-flex align-items-center justify-content-center mx-2 my-2 w-75">
+          <input required  type="text" class="form-control cd bg-light" placeholder="Client name" aria-label="First name" name="client_name">
+        </div>
+        <div class="d-flex align-items-center justify-content-center mx-2 my-2 w-75">
+          <input required  type="text" class="form-control cd bg-light" placeholder="Flat number" aria-label="Last name" name="flat_number">
+        </div>
+        <div class="d-flex align-items-center justify-content-center mx-2 my-2 w-75">
+          <input required  type="text" class="form-control cd bg-light" placeholder="Address" aria-label="Last name" name="building_name">
+        </div>
+        
+        <div class="d-flex align-items-center justify-content-end mx-2 my-2 w-100">
+          <input required type="button" class="btn mx-2" style="background-color:#12222e;color:white;" onclick="AddNewRoom();" value="New Room"></input>
+        </div>
+      </div>
+
+
+      <div id="room1">
+        <div class="d-flex py-2 mt-5 w-100 align-items-center" style="background-color:#153751;">
+          <div class=" px-2 text-center align-items-center w-50">
+            Room Name:
+          </div>
+          <div class=" px-2 w-100">
+            <input required  type="text" class="form-control" id="roomname" placeholder=" Room Name" name="room1_name">
+          </div>
+          <div class="d-flex flex-row align-items-center justify-content-center">
+            <button class="btn mx-2" type="button" style="background-color:#12222e;color:white;"
+              onclick='AddNewGlass("room1");'>New Glass</button>
+              <button class="btn btn-light px-1 py-1 trash" type="button" onclick="deleteroom('room1');"><svg width="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></button>
+          </div>
+        </div>
+  
+        <!-- -------------------------------------- -->
+  
+        <div id="room1_glass1">
+          <div class="row mt-4 px-3">
+            <div class="d-flex align-items-center justify-content-end my-2">
+              <button class="btn btn-light trash2" type="button" onclick="deleteglass('room1_glass1');"><svg width="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></button>
+            </div>
+            <div class="col-md-3">
+              Glass Details:
+            </div>
+            <div class="col-md-8 align-items-start">
+              <input required  type="text" class="form-control" id="glassdetails" placeholder="Glass Name and details" name="room1_glass1_details">
+            </div>
+          </div>
+          
+          <div class="row my-1 px-3">
+            <div class="col-md-3">
+              Glass Size:
+            </div>
+            <div class="col-md-8">
+              <div class="d-flex flex-row align-items-center">
+                <input required  type="text" class="form-control me-2" id="glass_size" placeholder=" Glass length" name="room1_glass1_size1">
+                <input required  type="text" class="form-control" id="glass_size" placeholder=" Glass breadth" name="room1_glass1_size2">
+              </div>
+            </div>
+          </div>
+
+          <div class="row px-3 pb-4">
+            <div class="col-md-3">
+              Glass Polish:
+            </div>
+            <div class="col-md-8 align-items-start">
+              <input required  type="text" class="form-control" id="glasspolish" placeholder="Glass Polish" name="room1_glass1_polish">
+            </div>
+          </div>
+        </div>
+  
+        <!-- -------------------------------------- -->
+  
+      </div>
+    </div>
+
+    <div class="row align-center">
+      <div class=" col-md-8 offset-md-2 my-3 px-5">
+          <button class="btn mt-3 text-light w-100 py-3" type="submit" style="background-color: #02192a;">Add New Client</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+  let i = 2;
+  let j = 2;
+
+  function AddNewRoom() {
+    temp = "'room" + i.toString() + "'";
+    temp = temp.toString()
+    str = 'onclick="AddNewGlass(' + temp + ');"'
+    z = "room" + i.toString();
+    y = z+"_name"
+    a = z+"_glass1_details"
+    b = z+"_glass1_size1"
+    c = z+"_glass1_size2"
+    d = z+"_glass1_polish"
+    m = "'room"+i.toString()+"_glass1'"
+
+    var container = document.createElement("div");
+    new_room = '<div id="' + z + '"><div class="d-flex py-2 mt-5 align-items-center w-100" style="background-color:#153751;"><div class=" my-1 mx-2 text-center w-50">Room Name:</div><div class=" my-1 w-100"><input required  type="text" class="form-control px-2" id="roomname" placeholder=" Room Name" name="'+y+'"></div><div class="d-flex flex-row align-items-center justify-content-center"><button type="button" class="btn mx-2" style="background-color:#12222e;color:white;" ' + str + '>New Glass</button> <button class="btn btn-light px-1 py-1 trash" type="button" onclick="deleteroom('+temp+');"><svg width="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></button></div></div><div id="room' + i.toString() + '_glass1"><div class="row mt-4 px-3"><div class="d-flex align-items-center justify-content-end my-2"><button class="btn btn-light trash2" onclick="deleteglass('+m+');" type="button"><svg width="100%" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></button></div><div class="col-md-3">Glass Details:</div><div class="col-md-8"><input required  type="text" class="form-control" id="glassdetails" placeholder=" Glass Name and details" name="'+a+'"></div></div><div class="row my-1 px-3 align items start"><div class="col-md-3">Glass Size:</div><div class="col-md-8"><div class="d-flex align-items-center"><input required  type="text" class="form-control me-2" id="glass_size" placeholder=" Glass length" name="'+b+'"><input required  type="text" class="form-control"  id="glass_size" placeholder=" Glass breadth" name="'+c+'"></div></div></div><div class="row px-3 pb-3"><div class="col-md-3">Glass Polish:</div><div class="col-md-8 align-items-start"><input required  type="text" class="form-control" id="glasspolish" placeholder="Glass Polish" name="'+d+'"></div></div></div></div>'
+    container.innerHTML = new_room;
+    document.getElementById("GlassOrder").appendChild(container);
+    document.getElementById("number_rooms").value = i.toString();
+    container = document.createElement("div");
+    container.innerHTML = '<input  type="hidden" name="' + z + 'glasses" value="1" id="' + z + '_number_glasses">'
+    document.getElementById("GlassOrder").appendChild(container);
+
+    i = i + 1;
+    j = j + 1;
+  }
+
+  function AddNewGlass(value) {
+    room = value + "_number_glasses";
+    var x = parseInt(document.getElementById(room).value);
+    x = x + 1
+    a = value+"_glass"+x.toString()+"_details"
+    b = value+"_glass"+x.toString()+"_size1"
+    c = value+"_glass"+x.toString()+"_size2"
+    d = value+"_glass"+x.toString()+"_polish"
+    z = "'"+value+"_glass"+x.toString()+"'"
+
+    var container = document.createElement("div");
+    new_glass = '<div id="'+value+'_glass' + x.toString() + '"><div class="row mt-4 px-3"><div class="d-flex align-items-center justify-content-end my-2"><button class="btn btn-light trash2" onclick="deleteglass('+z+');" type="button"><svg width="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></button></div><div class="col-md-3">Glass Details:</div><div class="col-md-8"><input required  type="text" class="form-control" id="glassdetails" placeholder=" Glass Name and details" name="'+a+'"></div><div class="col-md-3"></div></div><div class="row px-3 my-1"><div class="col-md-3">Glass Size:</div><div class="col-md-8"><div class="d-flex flex-row align-items-center"><input required  type="text" class="form-control me-2"  id="glass_size" placeholder=" Glass length" name="'+b+'"><input required  type="text" class="form-control"  id="glass_size" placeholder=" Glass breadth"name="'+c+'"></div></div></div><div class="row px-3 pb-3"><div class="col-md-3">Glass Polish:</div><div class="col-md-8 align-items-start"><input required  type="text" class="form-control" id="glasspolish" placeholder="Glass Polish" name="'+d+'"></div></div></div>'
+    container.innerHTML = new_glass;
+    document.getElementById(value).appendChild(container);
+    document.getElementById(room).value = x;
+    j = j + 1;
+  }
+
+  function deleteglass(value){
+    details = document.getElementsByName(value+"_details")[0].value
+    length = document.getElementsByName(value+"_size1")[0].value
+    breadth = document.getElementsByName(value+"_size2")[0].value
+    polish = document.getElementsByName(value+"_polish")[0].value
+    check = confirm("Are you sure you want to delete a glass with details\n name:"+details+"\nlength:"+length+"  breadth:"+breadth+"\npolish:"+polish);
+    if(check){
+      var x = document.getElementById(value);
+      x.parentNode.removeChild(x);
+        a = parseInt(document.getElementById(value.slice(0,5)+"_number_glasses").value)
+        a = a-1
+        document.getElementById(value.slice(0,5)+"_number_glasses").value = a.toString()  
+    }
+  }
+
+  function deleteroom(value){
+    name = document.getElementsByName(value+"_name")[0].value
+    check = confirm("Are you sure you want to delete room "+name);
+    if(check){
+      var x = document.getElementById(value);
+      x.parentNode.removeChild(x);
+      a = parseInt(document.getElementById("number_rooms").value);
+      a = a-1
+      document.getElementById("number_rooms").value = a.toString();
+    }
+  }
+
+</script>
+{% endblock %}
