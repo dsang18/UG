@@ -1,0 +1,196 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block body %}
+
+<style> 
+*{
+    color:white;
+}
+.vertical-center{
+    min-height: 90vh;
+    display:flex;
+    align-items:center;
+} 
+
+h1{
+    text-align:center;
+    font-family: 'Bitter', serif;
+    color:#3B7197;
+    font-weight:bold;
+    border-bottom:6px solid #12222e;
+    border-width:90%;
+    margin-bottom:30px;
+}
+
+.form-control{
+    background-color: #cbe7f5;
+}
+
+#showpass{
+    width:1em;
+    height:1em;
+    text-align:center;
+}
+
+</style>
+
+
+
+
+
+<div class="vertical-center">
+    <div class="fluid-container mx-5 w-100">
+        <div class="row justify-content-md-center">
+            <div class="row justify-content-md-center">
+                <div class="col-md-12">
+                    <h1 class="text-center">ADD NEW USER</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-12">
+                <form method="POST" onsubmit="return formValidator()" class="shadow-lg p-3 rounded-md" style="background-color:#3B7197;border-radius:0.5rem;height:100%;">
+                    {% csrf_token %}
+                    <div class="form-group mx-2 my-2">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Full Name">
+                    </div>
+                    <h6 class="h6 ms-3 " id="fullnameMsg"></h6>
+    
+    
+    
+                    <div class="form-group mx-2 my-2">
+                        <label for="email" >Phone Number</label>
+                        <input type="text" name="phone" class="form-control" id="phone"
+                            placeholder="Enter Phone Number">
+                    </div>
+                    <h6 class="h6 ms-3 "   id="PhoneMsg"></h6>
+    
+    
+                    <div class="form-group mx-2 my-2">
+                        <label for="Password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="Password">
+                    </div>
+                    <div class="form-group mx-2 my-2">
+                        <input type="checkbox" name="show password" id="showpass">Show Password
+                    </div>
+
+                    <h6 class="h6 ms-3 "   id="PasswordMsg"></h6>
+    
+                    <div class="form-group mx-2 my-2">
+                        <div class="input-group mb-3">
+                            <div class="input-group-text me-2">
+                                <input class="form-check-input mt-0" type="checkbox" name="allow_adding_users" aria-label="Checkbox for following text input">
+                            </div>
+                            Allow adding User
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-text me-2">
+                                <input class="form-check-input mt-0" type="checkbox"  name="allow_authorize" aria-label="Checkbox for following text input">
+                            </div>
+                            Allow user to give permissions
+                        </div>
+                    </div>
+    
+                    <div class="d-flex flex-row-reverse">
+                        <button type="submit" class="btn left-100 mx-2" style="background-color: #12222e;
+                        color:white;">Add New User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+
+   $("#showpass").click(function(){
+        let checkbox = document.getElementById("showpass");
+        if(checkbox.checked){
+            document.getElementById("password").type="text";
+        }
+        else{
+            document.getElementById("password").type="password";
+        }
+
+    });
+
+    function formValidator(){
+        var fullname = document.getElementById("fullname");
+        var username = document.getElementById("username");
+	    var phone = document.getElementById("phone");
+	    var password = document.getElementById("password");
+        if (checkFullName(fullname, "Please Enter Full Name")){
+                if (phoneValidate(phone, "Please enter a valid Phone No")){
+                    if(checkPassword(password, "Password should have 1 captial letter, 1 small letter, 1 special character and 1 number")){
+                        if(checkPhone(phone,"This phone number is already registered..!!")){
+                            return true;
+                        }
+                    }
+                }
+        }
+        return false;
+    }
+
+
+    function phoneValidate(elem, helperMsg){
+        
+        document.getElementById("phone").innerHTML = "";
+        var phoneExp = /^[0-9]{10}$/;
+        if(elem.value.match(phoneExp)){
+            return true;
+        }else{
+            document.getElementById("PhoneMsg").innerHTML = helperMsg;
+            elem.focus();
+            return false;
+        }
+    }
+
+    function checkPhone(elem, helperMsg){
+        document.getElementById("PhoneMsg").innerHTML="";
+        var all_numbers = {{all_numbers|safe}};
+    
+        if({{all_numbers|safe}}.includes(elem.value)){
+            
+            document.getElementById("PhoneMsg").innerHTML = helperMsg;
+            elem.focus();
+            return false;   
+        }
+        else{
+            return true;
+        }
+        
+       
+    }
+
+    function checkFullName(elem, helperMsg){
+        document.getElementById("fullnameMsg").innerHTML = "";
+        var fullnameExp = /^[a-zA-Z]{3,15}\s[a-zA-Z]{3,15}$/;
+        if(elem.value.match(fullnameExp)){
+            return true;
+        }else{
+            document.getElementById("fullnameMsg").innerHTML = helperMsg;
+            elem.focus();
+            return false;
+        }
+    }
+
+    function checkPassword(elem, helperMsg){
+        document.getElementById("PasswordMsg").innerHTML = "";
+        var passwordExp = /^[a-zA-Z]+[@-_#!]*[0-9]+$/
+        if(elem.value.match(passwordExp)){
+            return true;
+        }else{
+            document.getElementById("PasswordMsg").innerHTML = helperMsg;
+            elem.focus();
+            return false;
+        }
+
+    }
+</script>
+{% endblock %}

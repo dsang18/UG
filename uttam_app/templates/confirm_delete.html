@@ -1,0 +1,33 @@
+{% extends 'basic.html' %}
+{% block body %}
+<style>
+    .navbar{
+        display:none;
+    }
+</style>
+
+
+    <div class="modal-dialog modal-dialog-centered vh-100" tabindex="-1">
+        <div class="modal-dialog px-5 py-5" style="background-color:#1222;">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title">Confirm??</h1>
+            </div>
+            <div class="modal-body">
+              <h5>Are you sure you want to delete a user with following credentials...</h5>
+              <b class="fs-5 text">Name: {{name}}</b><br>
+              <b class="fs-5 text">Phone No: {{phone}}</b>
+            </div>
+            <div class="modal-footer">
+                <form method="POST">
+                    {% csrf_token %}
+                    <a href="/{{id}}/authorize/" type="button" class="btn btn-secondary">No</a>
+                    <button type="submit" class="btn btn-danger">Delete User</button>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+  {% endblock %}
