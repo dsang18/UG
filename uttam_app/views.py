@@ -4,7 +4,7 @@ from datetime import datetime
 import datetime as dt
 import re
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.hashers import check_password
 
 def matchQuery(query, name, phone):
     name = name.upper()
@@ -22,9 +22,9 @@ def LoginPage(request):
 
         try:
             user_details = User.objects.filter(phone=phone_no)
+            hash_pwd = user_details[0].password
             
-            
-            if password==user_details[0].password:
+            if check_password(password, hash_pwd):
                 
                 return HttpResponse(f"/{str(user_details[0].user_id)}/home/")
             else:
@@ -32,6 +32,7 @@ def LoginPage(request):
 
             
         except Exception as e:
+            print(e)
             if not user_details:
                 return HttpResponse("No user with above credentials")
             elif password!=user_details[0].password:
@@ -243,7 +244,7 @@ def delete_user(request, id, id2):
         return redirect(f"/{id}/authorize/")
     return render(request, "confirm_delete_user.html", {"id":id,"name":user_details[0].fullname,"phone":user_details[0].phone})
 
-
+#@login_required(login_url='/')
 def delete_client(request, id, id2):
 
     user_details = Client_details.objects.filter(id=id2)

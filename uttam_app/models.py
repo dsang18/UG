@@ -1,5 +1,7 @@
 from django.db import models
 import datetime 
+from django.contrib.auth.hashers import make_password
+
 # from django.utils import timezone
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
@@ -8,7 +10,11 @@ class User(models.Model):
     password = models.CharField(max_length=100)
     add_users = models.BooleanField()
     give_access = models.BooleanField()
-
+    
+    
+    def save(self):
+        self.password = make_password(self.password)
+        super(User, self).save()
     def __str__(self):
         return self.fullname
     
