@@ -52,7 +52,7 @@
 
 
 <div class="fluid-container">
-  <form method="POST" action="" class="fluid-container" style="background-color: #4A8DB7;">
+  <form method="POST" action="" class="fluid-container" style="background-color: #4A8DB7;" data-aos = "zoom-in">
     <div class="d-flex align-items-center justify-content-end w-100 px-3 py-3">
       <button class="btn" type="button" id="editClient" onclick="enableAll();">Edit</button>
       
@@ -163,8 +163,11 @@
 
 {% block js %}
 <script>
+  AOS.init();
+  
   let i = 2;
   let j = 2;
+  
 
   window.onload=function(){
     $(':button').prop('disabled', true);

@@ -36,9 +36,6 @@ h1{
 </style>
 
 
-
-
-
 <div class="vertical-center">
     <div class="fluid-container mx-5 w-100">
         <div class="row justify-content-md-center">
@@ -48,7 +45,7 @@ h1{
                 </div>
             </div>
         </div>
-        <div class="row justify-content-md-center">
+        <div class="row justify-content-md-center" data-aos="zoom-in">
             <div class="col-md-12">
                 <form method="POST" onsubmit="return formValidator()" class="shadow-lg p-3 rounded-md" style="background-color:#3B7197;border-radius:0.5rem;height:100%;">
                     {% csrf_token %}
@@ -108,6 +105,8 @@ h1{
 
 {% block js %}
 <script>
+
+    AOS.init();
 
    $("#showpass").click(function(){
         let checkbox = document.getElementById("showpass");

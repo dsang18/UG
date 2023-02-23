@@ -29,7 +29,7 @@
         <div href="#" class="list-group-item list-group-item-action" style="background-color:#3B7197;">
         {% for user in all_users %}
         {% if user.user_id is not id %}
-            <div class="d-flex flex-col align-items-center justify-content-between px-2 py-2 row" style="border:2px solid #12222e;border-radius:0.3em;">
+            <div class="d-flex flex-col align-items-center justify-content-between px-2 py-2 row" style="border:2px solid #12222e;border-radius:0.3em;" data-aos="fade-right">
 
                 <div class=" col-md-6">
                         <h4 class="mb-1 text-light">Name: {{user.fullname}}</h4>
@@ -66,4 +66,7 @@
     </div>
     </div>
 </div>
+<script>
+    AOS.init();
+</script>
 {% endblock %}

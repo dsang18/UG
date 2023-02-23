@@ -38,10 +38,10 @@
 
 
 
-<div class="fluid-container">
+<div class="fluid-container" id="full-section">
   <form method="POST" action="" class="fluid-container" style="background-color: #4A8DB7;">
     {% csrf_token %}
-    <div id="GlassOrder" class="px-0 py-0">
+    <div id="GlassOrder" class="px-0 py-0" data-aos = "zoom-in">
       <input   type="hidden" name="no_of_rooms" value="1" id="number_rooms">
       <input   type="hidden" name="room1glasses" value="1" id="room1_number_glasses">
       <div class="d-flex align-items-center justify-content-center py-2 w-100 flex-wrap">
@@ -130,6 +130,8 @@
 
 {% block js %}
 <script>
+
+  AOS.init();
   let i = 2;
   let j = 2;
 
@@ -156,6 +158,7 @@
 
     i = i + 1;
     j = j + 1;
+
   }
 
   function AddNewGlass(value) {

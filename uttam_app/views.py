@@ -3,6 +3,8 @@ from .models import User, Client_details, glass
 from datetime import datetime
 import datetime as dt
 import re
+from django.contrib.auth.decorators import login_required
+
 
 def matchQuery(query, name, phone):
     name = name.upper()
@@ -39,13 +41,13 @@ def LoginPage(request):
 
     return render(request, "login_page.html")
 
-
+# @login_required(login_url='/')
 def Home(request, id):
     user_details = User.objects.filter(user_id=id)
     all_clients = Client_details.objects.all()
     return render(request, "home.html", {"id":id,"add_users":user_details[0].add_users, "authorize":user_details[0].give_access, "all_clients":all_clients})
     
-
+# @login_required(login_url='/')
 def addUser(request, id):
     user_details = User.objects.filter(user_id=id)
     all_numbers = list(User.objects.values_list("phone",flat=True))
@@ -67,7 +69,7 @@ def addUser(request, id):
         
     return render(request, "add_user.html", {"id":id,"add_users":user_details[0].add_users, "authorize":user_details[0].give_access, "all_numbers":all_numbers})
 
-
+# @login_required(login_url='/')
 def authorizeUsers(request, id):
 
     user_details = User.objects.filter(user_id=id)
@@ -102,7 +104,7 @@ def authorizeUsers(request, id):
 
     return render(request, "authorize.html", {"id":id,"add_users":user_details[0].add_users, "authorize":user_details[0].give_access, "all_users":all_users})
 
-
+# @login_required(login_url='/')
 def add_new_client(request, id):
 
     user_details = User.objects.filter(user_id=id)
@@ -146,7 +148,7 @@ def add_new_client(request, id):
             
     return render(request, "add_new_client.html", {"id":id,"add_users":user_details[0].add_users, "authorize":user_details[0].give_access})
 
-
+# @login_required(login_url='/')
 def show_client_details(request, id, id2):
     user_details = User.objects.filter(user_id=id)
     client_d = Client_details.objects.get(id=id2)
@@ -201,11 +203,9 @@ def show_client_details(request, id, id2):
   
     return render(request, "client_details.html", {"id":id,"add_users":user_details[0].add_users, "authorize":user_details[0].give_access, "client":client_d, "rooms_and_no_glass":rooms_qty_glass, "all_glasses":all_glasses, "no_of_rooms":len(all_rooms), "client_id":id2})
 
-
-
 def remove_punctuations(string):
     return re.sub('\W+','', string)
-
+# @login_required(login_url='/')
 def show_summary(request, id, id2):
     user_details = User.objects.filter(user_id=id)
     all_clients = Client_details.objects.all()
@@ -233,12 +233,24 @@ def show_summary(request, id, id2):
 
     return render(request, "summary.html", {"id":id,"add_users":user_details[0].add_users, "authorize":user_details[0].give_access, "all_clients":all_clients, "client_id":id2,"all_glasses":newlist1})
 
-
-
+# @login_required(login_url='/')
 def delete_user(request, id, id2):
+
     user_details = User.objects.filter(user_id=id2)
     
     if request.method=="POST":
         User.objects.get(user_id=id2).delete()
         return redirect(f"/{id}/authorize/")
-    return render(request, "confirm_delete.html", {"id":id,"name":user_details[0].fullname,"phone":user_details[0].phone})
+    return render(request, "confirm_delete_user.html", {"id":id,"name":user_details[0].fullname,"phone":user_details[0].phone})
+
+
+def delete_client(request, id, id2):
+
+    user_details = Client_details.objects.filter(id=id2)
+    
+    if request.method=="POST":
+        Client_details.objects.get(id=id2).delete()
+        return redirect(f"/{id}/home/")
+    return render(request, "confirm_delete_client.html", {"id":id,"name":user_details[0].client_name,"address":user_details[0].flat_no+" "+user_details[0].building_name})
+
+

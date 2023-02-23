@@ -15,6 +15,7 @@
       <div
         class="fluid-container px-3 text-light py-3"
         style="background-color: #25465d"
+        data-aos="flip-up"
       >
         <h3>{{i.0}}</h3>
       </div>
@@ -30,7 +31,10 @@
 
     <tbody></tbody>
   </table>
-
   {% endfor %}
 </div>
+
+<script>
+  AOS.init();
+</script>
 {% endblock %}

@@ -19,7 +19,8 @@ from uttam_app import views
 urlpatterns = [
     path('',views.LoginPage, name="Login"),
     path('<int:id>/home/', views.Home, name="Home"),
-    path('<int:id>/delete-user/<int:id2>/', views.delete_user, name="confirm_delete"),
+    path('<int:id>/delete-user/<int:id2>/', views.delete_user, name="confirm_delete_user"),
+    path('<int:id>/delete-client/<int:id2>/', views.delete_client, name="confirm_delete_client"),
     path('<int:id>/add-user/', views.addUser, name="Add User"),
     path('<int:id>/authorize/', views.authorizeUsers, name="Authorize Users"),
     path('<int:id>/add-new-client/', views.add_new_client, name="Add New Client"),
